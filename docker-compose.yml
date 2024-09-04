@@ -1,0 +1,45 @@
+# 
+# Project Name: PlantKeeper
+#
+# @created 03.09.2024
+# @file docker-compose.yml
+# @version 1.0.0
+# @description 
+#   Docker Compose configuration to run the PlantKeeper Flask server 
+#   and PostgreSQL database in separate containers.
+#
+# @authors
+#   - Rafael Dousse
+#   - Eva Ray
+#   - Quentin Surdez
+#   - Rachel Tranchida
+#
+# @services
+#   - Flask application (sensor data relay)
+#   - PostgreSQL database (stores plant data)
+#
+
+services:
+  flask-app:
+    container_name: flask_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    build:
+        context: .
+        dockerfile: Dockerfile
+  db:
+    image: postgres:14
+    container_name: postgres_db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=<motDePasse>
+      - POSTGRES_DB=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
