@@ -1,3 +1,25 @@
+"""
+Project Name: PlantKeeper
+
+@created 03.09.2024
+@file listener.py
+@version 1.0.0
+@description 
+    Flask-based server to receive sensor data from the Arduino devices 
+    and forward it to the backend server.
+    
+@authors
+  - Rafael Dousse
+  - Eva Ray
+  - Quentin Surdez
+  - Rachel Tranchida
+
+@dependencies
+  - Flask 2.x
+  - Requests 2.x
+
+"""
+
 from flask import Flask, request, jsonify
 import requests
 
