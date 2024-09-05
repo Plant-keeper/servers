@@ -53,7 +53,10 @@ __3. Access the Server:__ Once the Docker containers are running:
 __4. Arduino Setup:__ This project is designed to be used with an Arduino. You can find the __Arduino__ code in the [iot folder](https://github.com/Plant-keeper/iot). Follow the steps in the __Arduino__ documentation to set up the board and configure the code to work with your home server or local IP address.
 
 __5. Local Network Access:__
-If your __Arduino__ is connected to the same network as the server, you can access the Flask server using the server's local IP address. To find the local IP address, use the following command to view the Docker logs: `docker logs -f <flask-app-container-name>`.
+If your __Arduino__ is connected to the same network as the server, you can access the Flask server using the server's local IP address. 
+To get you containers name use the following command: `docker ps`
+it will list all the running containers and their names.
+To find the local IP address of the flask app, use the following command to view the Docker logs: `docker logs -f <flask-app-container-name>`.
 
 Look for the IP address in the logs and use that to access the Flask server locally.
 
@@ -120,3 +123,21 @@ from the Arduino to the backend. This architecture ensures a scalable, secure, a
 functionality of the PlantKeeper project.
 
 ## Improvements and future work
+
+In this section, we outline several unresolved issues and potential areas for further improvement in the project. These are aspects that could be enhanced by contributors who are interested in advancing the project further. The following are the key areas:
+
+  1. Reverse Proxy with NGINX:     
+      - __Issue:__ The server is currently vulnerable to bot traffic and spam due to the lack of traffic management and protection against malicious requests.
+      - __Improvement:__ Implementing a reverse proxy using NGINX would allow better traffic handling and security by filtering out unwanted traffic.
+
+  2. Token-Based Authentication: 
+      - __Issue:__ The server currently lacks secure authentication, meaning any user could potentially send requests without validation.
+      - __Improvement:__ Adding token-based authentication, such as JWT (JSON Web Tokens), would ensure only authenticated users can interact with the server, improving security and preventing unauthorized access to sensitive resources.
+
+  3. SSL Certificates for Security: 
+      - __Issue:__ Data transferred between clients and the server is not encrypted, exposing it to potential interception and security threats.
+      - __Improvement:__ Implementing SSL certificates would encrypt communication between the client and server, securing data transfers and preventing third-party eavesdropping.
+    
+  4. CI/CD Pipeline for Updates:     
+      - __Issue:__ Server updates need to be done manually, which increases the risk of errors during deployment and slows down the process.
+      - __Improvement:__ Setting up a CI/CD pipeline would automate the update process, ensuring that new features, security patches, and improvements are deployed seamlessly and efficiently, reducing downtime and minimizing the risk of human error.
