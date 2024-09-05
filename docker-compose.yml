@@ -29,6 +29,8 @@ services:
     build:
         context: .
         dockerfile: Dockerfile
+    environment:
+      - PYTHONUNBUFFERED=1
   db:
     image: postgres:14
     container_name: postgres_db

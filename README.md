@@ -53,7 +53,10 @@ __3. Access the Server:__ Once the Docker containers are running:
 __4. Arduino Setup:__ This project is designed to be used with an Arduino. You can find the __Arduino__ code in the [iot folder](https://github.com/Plant-keeper/iot). Follow the steps in the __Arduino__ documentation to set up the board and configure the code to work with your home server or local IP address.
 
 __5. Local Network Access:__
-If your __Arduino__ is connected to the same network as the server, you can access the Flask server using the server's local IP address. To find the local IP address, use the following command to view the Docker logs: `docker logs -f <flask-app-container-name>`.
+If your __Arduino__ is connected to the same network as the server, you can access the Flask server using the server's local IP address. 
+To get you containers name use the following command: `docker ps`
+it will list all the running containers and their names.
+To find the local IP address of the flask app, use the following command to view the Docker logs: `docker logs -f <flask-app-container-name>`.
 
 Look for the IP address in the logs and use that to access the Flask server locally.
 
