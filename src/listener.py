@@ -19,11 +19,24 @@ Project Name: PlantKeeper
   - Requests 2.x
 
 """
-
 from flask import Flask, request, jsonify
 import requests
+import threading
 
 app = Flask(__name__)
+
+# Function to send data to the backend asynchronously
+def send_to_backend(data):
+    backend_url = "http://backend-phi-drab-76.vercel.app/api/v1/sensors/" 
+    backend_url += str(data['id'])
+    
+    # Send data to backend and print backend response
+    response = requests.patch(backend_url, json=data, verify=False)
+
+    if response.status_code == 200:
+        print("Data forwarded to backend successfully:", response.json())
+    else:
+        print("Failed to forward data to backend:", response.status_code)
 
 # Route for receiving POST requests
 @app.route('/sensor-data', methods=['POST'])
@@ -43,22 +56,13 @@ def receive_data():
         return jsonify({"error": "No id in data"}), 400
 
     # Immediately send 200 status back to the Arduino
-    # This tells the Arduino that the data was received successfully
     response_arduino = jsonify({"message": "Data successfully received"}), 200
 
-    
-    backend_url = "http://backend-phi-drab-76.vercel.app/api/v1/sensors/" 
-    backend_url += str(data['id'])
-    
-    # Send data to backend and print backend response
-    response = requests.patch(backend_url, json=data, verify=False)
+    # Create a new thread to handle sending data to the backend
+    thread = threading.Thread(target=send_to_backend, args=(data,))
+    thread.start()
 
-    if response.status_code == 200:
-        print("Data forwarded to backend successfully:", response.json())
-    else:
-        print("Failed to forward data to backend:", response.status_code)
-
-    # Return the response to Arduino 
+    # Return response to Arduino without waiting for backend request
     return response_arduino
 
 if __name__ == "__main__":
